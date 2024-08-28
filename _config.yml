@@ -16,7 +16,7 @@ timezone: Europe/London
 
 title: Sam Hyams # the main title
 
-tagline: A text-focused Jekyll theme # it will display as the sub-title
+tagline: An engineer who likes robotics and flying things. Here are some of the things I do in my free time # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.
@@ -35,7 +35,7 @@ social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
   name: Sam Hyams
-  # email: example@domain.com # change to your email address
+  email: sam@samhyams.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
     # - https://twitter.com/username # change to your twitter homepage
