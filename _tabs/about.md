@@ -3,9 +3,10 @@
 icon: fas fa-info-circle
 order: 1
 cdn: 'https://samhyams.b-cdn.net'
+media_subpath: /lw-pla/
 ---
 
-[Top image](/about_me.jpg)
+![Top image](/about_me.jpg)
 
 ### I'm Sam.
 
