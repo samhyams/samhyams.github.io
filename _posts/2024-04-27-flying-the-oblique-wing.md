@@ -7,7 +7,7 @@ description: Building and flying a 3D printed oblique wing demonstrator
 toc: false
 media_subpath: /oblique_wing/
 image:
-  path: DSC_6228-scaled.jpg
+  path: DSC_6229_1.jpg
   alt: Oblique wing demonstrator in flight
 ---
 At the start of the year I was inspired by [Mustard's excellent video](https://www.youtube.com/watch?v=C_dNt4UEVZQ) on the oblique wing concept and wanted to give it a go for myself with an RC scale model. I took this on as a quick side project for a bit of fun, and so I chose a very limited number of requirements to meet, which were:
@@ -42,12 +42,19 @@ Now happy with the performance, I added a bit of colour to the airframe and atta
 I was interested in looking at the flight log data to see how the system responded to the pitch/roll coupling experienced by the larger NASA oblique wing prototypes, but sadly the log files were corrupted. Anecdotally, the use of ArduPilot's fly by wire significantly reduced any noticeable control effects from the swing wing, with flight control remaining very easy regardless of the wing sweep angle. The tricky part is to maintain awareness of the orientation of the model, as having the wing sweep both fore and aft of the pivot is much more disorienting than I expected!
 
 I created a longer-form video which shows some of the manufacturing process and additional video of the flights.
-
  
 {% include embed/youtube.html id='Du_N1FtwGAM' %}
 
+All of the aims were met including the reuse of many old components:
+
+- Motor, propeller, and tail servos from my crashed Durafly Tundra
+- ESC from my autonomous boat project
+- Wing servos and main spar from my crashed Volantex ASW28
+- Tail boom from an old foamboard wing
+- RC receiver from a 3 inch racing quad which I'd upgraded to ELRS
+
 Finally, a few shots of the aircraft in flight, thanks to some of my fellow aeromodellers at the flying site. I particularly like the backlight allowing the internal structure of the wing to be visible!
 
-![Oblique wing 1](DSC_6228-scaled.jpg)
-![Oblique wing 2](DSC_6229_1-scaled.jpg)
-![Oblique wing 3](DSC_6230_1-scaled.jpg)
+![Oblique wing 1](DSC_6228.jpg)
+![Oblique wing 2](DSC_6229_1.jpg)
+![Oblique wing 3](DSC_6230_1.jpg)
