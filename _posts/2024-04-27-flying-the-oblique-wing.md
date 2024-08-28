@@ -55,6 +55,6 @@ All of the aims were met including the reuse of many old components:
 
 Finally, a few shots of the aircraft in flight, thanks to some of my fellow aeromodellers at the flying site. I particularly like the backlight allowing the internal structure of the wing to be visible!
 
-![Oblique wing 1](DSC_6228.jpg)
+![Oblique wing 1](DSC_6228.JPG)
 ![Oblique wing 2](DSC_6229_1.jpg)
 ![Oblique wing 3](DSC_6230_1.jpg)
