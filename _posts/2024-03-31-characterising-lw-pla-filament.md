@@ -62,6 +62,8 @@ The Prusa Mini profile in PrusaSlicer uses default retraction/deretraction speed
 ![Retraction length comparison](retraction_length-1.jpg)
 _Retraction length testing: Increasing left to right in increment of 1 mm, from 0 to 6 mm_
 
+### Retraction Speed
+
 ![Retraction speed comparison](retraction_speed-1.jpg)
 _Retraction speed testing: Increasing from left to right. 2, 20, 40, 60, 80, 100 mm/s_
 

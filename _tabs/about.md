@@ -2,11 +2,12 @@
 # the default layout is 'page'
 icon: fas fa-info-circle
 order: 1
+cdn: 'https://samhyams.b-cdn.net'
 ---
 
-[Top image](https://samhyams.b-cdn.net/about_me.jpg)
+[Top image](/about_me.jpg)
 
-###I'm Sam.
+### I'm Sam.
 
 I began my degree in Aerospace Engineering at the University of Bath in 2014. 
 
