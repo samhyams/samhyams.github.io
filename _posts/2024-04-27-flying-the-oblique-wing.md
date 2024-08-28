@@ -1,7 +1,7 @@
 ---
 title: Flying the Oblique Wing
 date: 2024-04-27 13:04:00 +0100
-categories: [Projects, Mini Projects]
+categories: [Projects, Archipelago]
 tags: [3d printed, uas, uav, ardupilot, arduplane]     # TAG names should always be lowercase
 description: Building and flying a 3D printed oblique wing demonstrator
 toc: false
@@ -10,6 +10,7 @@ image:
   path: DSC_6229_1.jpg
   alt: Oblique wing demonstrator in flight
 ---
+
 At the start of the year I was inspired by [Mustard's excellent video](https://www.youtube.com/watch?v=C_dNt4UEVZQ) on the oblique wing concept and wanted to give it a go for myself with an RC scale model. I took this on as a quick side project for a bit of fun, and so I chose a very limited number of requirements to meet, which were:
 
 - The wing must be able to rotate in the air on command

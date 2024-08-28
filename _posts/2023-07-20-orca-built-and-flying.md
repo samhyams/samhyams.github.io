@@ -1,7 +1,7 @@
 ---
 title: Orca Built and Flying
 date: 2023-07-20 21:06:00 +0100
-categories: [Project Updates, Orca]
+categories: [Projects, Orca]
 tags: [uas, uav, autonomous, ardupilot, arduplane]     # TAG names should always be lowercase
 description: Payload carrying aircraft build from kit with ArduPlane setup
 toc: false

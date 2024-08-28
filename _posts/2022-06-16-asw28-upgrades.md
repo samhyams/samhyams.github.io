@@ -1,7 +1,7 @@
 ---
 title: ASW28 Upgrades
 date: 2022-06-16 13:13:00 +0100
-categories: [Project Updates, ASW28]
+categories: [Projects, ASW28]
 tags: [uas, uav, autonomous, ardupilot, arduplane]     # TAG names should always be lowercase
 description: Improving the avionics of my glider with an ArduPlane makeover
 toc: false

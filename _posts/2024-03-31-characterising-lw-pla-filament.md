@@ -1,7 +1,7 @@
 ---
 title: Characterising LW-PLA Filament
 date: 2024-03-31 14:26:00 +0000
-categories: []
+categories: [Other]
 tags: [3d printed]     # TAG names should always be lowercase
 description: Tuning colorFabb LW-PLA filament for the Prusa Mini
 toc: false

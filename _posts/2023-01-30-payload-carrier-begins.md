@@ -1,7 +1,7 @@
 ---
 title: Payload Carrier Begins
 date: 2023-01-30 20:13:00 +0000
-categories: [Project Updates, Orca]
+categories: [Projects, Orca]
 tags: [uas, uav, autonomous, ardupilot, arduplane]     # TAG names should always be lowercase
 description: Designing the systems of my new payload carrying autonomous RC aircraft
 toc: false
