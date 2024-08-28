@@ -4,7 +4,7 @@ icon: fas fa-info-circle
 order: 1
 ---
 
-[Top image](/about_me.jpg)
+[Top image](https://samhyams.b-cdn.net/about_me.jpg)
 
 ###I'm Sam.
 
