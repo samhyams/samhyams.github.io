@@ -7,7 +7,7 @@ description: Payload carrying aircraft build from kit with ArduPlane setup
 toc: false
 media_subpath: /orca/
 image:
-  path: 
+  path: DSC02302.jpg
   alt: Orca flying
 ---
 
