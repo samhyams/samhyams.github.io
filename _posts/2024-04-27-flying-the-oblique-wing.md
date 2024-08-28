@@ -3,9 +3,7 @@ title: Flying the Oblique Wing
 date: 2024-04-27 13:04:00 +0100
 categories: [Projects, Mini Projects]
 tags: [3d printed, uas, uav, drone]     # TAG names should always be lowercase
----
 description: Building and flying a 3D printed oblique wing demonstrator
----
 toc: false
 ---
 At the start of the year I was inspired by [Mustard's excellent video](https://www.youtube.com/watch?v=C_dNt4UEVZQ) on the oblique wing concept and wanted to give it a go for myself with an RC scale model. I took this on as a quick side project for a bit of fun, and so I chose a very limited number of requirements to meet, which were:
@@ -27,6 +25,8 @@ The maiden flight wasn't a complete success! The handling characteristics were v
 Along with a larger tail boom, I modified the tail to have an adjustable tailplane angle of up to 2.5 degrees pitch down and secured by setscrews, which I used for the remaining flights. The second flight was a much more successful attempt and I was able to test the swing wing for the first time.
 
 Now happy with the performance, I added a bit of colour to the airframe and attached my FPV camera on the tail to capture some in-flight video. I also added in a spare GPS receiver and set it up for auto take-off. Initially, I made the oversight of not checking the CG before flying which caused an immediate crash! After reprinting the fuselage and waiting almost a month for a weather window I was able to get out and record the final in flight videos of the oblique wing in action.
+
+{% include embed/{youtube}.html id='{DUbD1NkzaE0}' %}
 
 I was interested in looking at the flight log data to see how the system responded to the pitch/roll coupling experienced by the larger NASA oblique wing prototypes, but sadly the log files were corrupted. Anecdotally, the use of ArduPilot's fly by wire significantly reduced any noticeable control effects from the swing wing, with flight control remaining very easy regardless of the wing sweep angle. The tricky part is to maintain awareness of the orientation of the model, as having the wing sweep both fore and aft of the pivot is much more disorienting than I expected!
 Finally, a few shots of the aircraft in flight, thanks to some of my fellow aeromodellers at the flying site. I particularly like the backlight allowing the internal structure of the wing to be visible!
