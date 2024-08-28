@@ -5,6 +5,10 @@ categories: [Projects, Mini Projects]
 tags: [3d printed, uas, uav, drone]     # TAG names should always be lowercase
 description: Building and flying a 3D printed oblique wing demonstrator
 toc: false
+
+image:
+  path: /oblique_wing/DSC_6228-scaled.jpg
+  alt: Oblique wing demonstrator in flight
 ---
 At the start of the year I was inspired by [Mustard's excellent video](https://www.youtube.com/watch?v=C_dNt4UEVZQ) on the oblique wing concept and wanted to give it a go for myself with an RC scale model. I took this on as a quick side project for a bit of fun, and so I chose a very limited number of requirements to meet, which were:
 
@@ -29,4 +33,9 @@ Now happy with the performance, I added a bit of colour to the airframe and atta
 {% include embed/youtube.html id='DUbD1NkzaE0' %}
 
 I was interested in looking at the flight log data to see how the system responded to the pitch/roll coupling experienced by the larger NASA oblique wing prototypes, but sadly the log files were corrupted. Anecdotally, the use of ArduPilot's fly by wire significantly reduced any noticeable control effects from the swing wing, with flight control remaining very easy regardless of the wing sweep angle. The tricky part is to maintain awareness of the orientation of the model, as having the wing sweep both fore and aft of the pivot is much more disorienting than I expected!
+
 Finally, a few shots of the aircraft in flight, thanks to some of my fellow aeromodellers at the flying site. I particularly like the backlight allowing the internal structure of the wing to be visible!
+
+![Oblique wing 1](/oblique_wing/DSC_6228-scaled.jpg)
+
+
