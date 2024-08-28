@@ -2,7 +2,7 @@
 title: Flying the Oblique Wing
 date: 2024-04-27 13:04:00 +0100
 categories: [Projects, Mini Projects]
-tags: [3d printed, uas, uav, drone]     # TAG names should always be lowercase
+tags: [3d printed, uas, uav, ardupilot, arduplane]     # TAG names should always be lowercase
 description: Building and flying a 3D printed oblique wing demonstrator
 toc: false
 media_subpath: /oblique_wing/
