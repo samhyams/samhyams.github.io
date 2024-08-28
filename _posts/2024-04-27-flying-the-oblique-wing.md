@@ -41,6 +41,11 @@ Now happy with the performance, I added a bit of colour to the airframe and atta
 
 I was interested in looking at the flight log data to see how the system responded to the pitch/roll coupling experienced by the larger NASA oblique wing prototypes, but sadly the log files were corrupted. Anecdotally, the use of ArduPilot's fly by wire significantly reduced any noticeable control effects from the swing wing, with flight control remaining very easy regardless of the wing sweep angle. The tricky part is to maintain awareness of the orientation of the model, as having the wing sweep both fore and aft of the pivot is much more disorienting than I expected!
 
+I created a longer-form video which shows some of the manufacturing process and additional video of the flights.
+
+ 
+{% include embed/youtube.html id='Du_N1FtwGAM' %}
+
 Finally, a few shots of the aircraft in flight, thanks to some of my fellow aeromodellers at the flying site. I particularly like the backlight allowing the internal structure of the wing to be visible!
 
 ![Oblique wing 1](DSC_6228-scaled.jpg)
