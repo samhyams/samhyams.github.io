@@ -3,12 +3,11 @@
 icon: fas fa-info-circle
 order: 1
 cdn: 'https://samhyams.b-cdn.net'
-media_subpath: /lw-pla/
 ---
 
 ![Top image](/about_me.jpg)
 
-### I'm Sam.
+# I'm Sam.
 
 I began my degree in Aerospace Engineering at the University of Bath in 2014. 
 
