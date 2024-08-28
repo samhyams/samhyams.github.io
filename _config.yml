@@ -14,7 +14,7 @@ timezone: Europe/London
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Chirpy # the main title
+title: Sam Hyams # the main title
 
 tagline: A text-focused Jekyll theme # it will display as the sub-title
 
@@ -26,7 +26,7 @@ description: >- # used by seo meta and the atom feed
 url: "https://samhyams.github.io"
 
 github:
-  username: github_username # change to your github username
+  username: samhyams # change to your github username
 
 twitter:
   username: twitter_username # change to your twitter username
@@ -38,11 +38,11 @@ social:
   # email: example@domain.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/username # change to your twitter homepage
+    # - https://twitter.com/username # change to your twitter homepage
     - https://github.com/username # change to your github homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
-    # - https://www.linkedin.com/in/username
+    - https://www.linkedin.com/in/sam-hyams
 
 # Site Verification Settings
 webmaster_verifications:
