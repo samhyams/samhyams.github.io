@@ -7,7 +7,7 @@ cdn: 'https://samhyams.b-cdn.net'
 
 ![Top image](/about_me.jpg)
 
-# I'm Sam.
+# Hi, I'm Sam.
 
 I began my degree in Aerospace Engineering at the University of Bath in 2014. 
 
