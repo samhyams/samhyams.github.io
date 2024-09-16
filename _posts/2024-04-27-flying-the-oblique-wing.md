@@ -58,4 +58,4 @@ Finally, a few shots of the aircraft in flight, thanks to some of my fellow aero
 
 ![Oblique wing 1](DSC_6228.JPG)
 ![Oblique wing 2](DSC_6229_1.jpg)
-![Oblique wing 3](DSC_6230_1.jpg)
+![Oblique wing 3](DSC_6230_1.jpg){: width="800" }
