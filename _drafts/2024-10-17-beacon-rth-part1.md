@@ -23,7 +23,7 @@ LoRa radios offer a ranging feature, where the point-to-point distance between t
 
 By knowing the distance from home, the relative closing speed of the aircraft to the home location can be calculated and compared to previous results to determine the trajectory of the aircraft relative to the home location over time. This can ultimately be used to crudely guide the aircraft back towards the home position. This project doesn't aim to match the accuracy of GPS-guided RTH or even the other GPS-denied solutions mentioned above, but the aim is to autonomously bring the UAV back in the direction of home to a point close enough that the pilot can gain visual, retake control, and land - all without the need for any GNSS-derived input data.
 
-# Investigating LoRa ranging
+# Investigating LoRa ranging performance
 
 Inspiration for this project came from reading through the Semtech LoRa documentation whilst working on another project. The documentation describes the in-built radio wave time-of-flight functionality, which can determine the distance between to LoRa radio modems.
 
@@ -55,9 +55,11 @@ _Basic system overview_
 
 # Hardware Implementation
 
+The project is flown aboard my *Orca*, which I built over a year ago for the purpose of flying custom payloads and other projects. The large payload bay is perfect for this project, and I added some SMA outlets on the sides of the fuselage to allow for easy mounting of the payload antennas. The platform uses a Matek F405 V2 flight controller running ArduPlane 4.5, with 868 and 433 MHz control and telemetry links leaving the S band free for project use. Main battery voltage is 16.8 V nominal from a 4S LiPo battery.
+
 ## System Safety
 
-Writing a bunch of requirements leans a little too close to my day job, but given this project involves handing over navigation control to some of my own hastily-written hacked together code, I think it’s best practice to stipulate a few key safety requirements. Here are three very high level requirements which must be met by the system as a whole:
+Writing a bunch of performance requirements leans a little too close to my day job, but given this project involves handing over navigation control to some of my own hastily-written hacked together code, I think it’s best practice to stipulate a few key safety requirements. Here are three very high level requirements which must be met by the system as a whole:
 
 - RC commands shall always override the novel payload
 - UAV failsafes shall always override the novel payload
@@ -129,6 +131,7 @@ while True:
                 airspeed = msg['airspeed']
 ```
 
+Following some example repositories online for guidance [2,3], 
 It is also quite simple to request a specific message, which can save time waiting when a particular piece of data is needed. This is done using...............
 
 
@@ -139,8 +142,26 @@ It is also quite simple to request a specific message, which can save time waiti
 
 Setting up Arduplane software in the loop is as simple as cloning the repository and following the SITL guide in the documentation. By default, running `sim_vehicle.py` will open an instance of mavproxy which can be used for control and monitoring of the simulation as if flying in real life. The command line can be used to open additional ports, which I used to provide a connection to the navigation algorithm script. One thing to bear in mind is that some of the parameters on the vehicle need to be enabled or set correctly, such as FENCE_ENABLE, which I found out when trying to regression test the geofence breach response!
 
+## Navigation Algorithm Development
+
+My initial steps with the navigation algorithm started with getting target location commands working. Getting current position data from MAVLink GLOBAL_POSITION_INT messages was straightforward, as was using location and heading to determine the target location from extrapolation, but trying to continuously update the target location in AUTO proved tricky. I tried several iterations of code using snippets from both [2] and [3] but ultimately settled on a simpler implementation when in GUIDED flight mode, which performs as expected. The target waypoint is extrapolated 1 km ahead of the current location as this point will never be reached during normal operation of the algorithm in real life. 
+
+With a distance to home function added, dynamic navigation based on distance to home could be developed. Initially I added the ability for the aircraft to turn right, which worked well, then I added logic to also turn left, and to switch turn direction if the previous turn moved the aircraft further from home. Finally, I included logic to adjust the magnitude of the next turn (the delta between current and next commanded heading) based on how close the closing speed is to the airspeed setpoint - assuming no wind, the maximum closing speed equals the airspeed setpoint. Effectively, this reduces the size of turn commanded as the accuracy of the aircraft's direction towards home increases.
+
+This all worked remarkably well considering the crude nature of the algorithm, so I next added a custom wind correction function to allow for operation in wind without GPS-derived wind estimation. The function takes the original windspeed and direction estimation determined by ArduPlane at initialisation of the script and calculates the corrected ground speed and ground course based on the current UAV magnetic heading.
+
+When the script is started, the UAV home position and last known wind measurements are used to initialise the navigation controller. The airspeed setpoint, diastance to home, and magnetic heading are all that is required for the controller to function, and my testing proves that it always returns the UAV to the vicinity of home. Indeed, if low or zero wind speeds are present, the UAV will often end up orbiting or performing a figure of eight pattern around the home point once reached! The video below shows a brief summary of the performance of the navigation controller in the simulator.
+
+{% include embed/youtube.html id='y_hJwu-_NvM' %}
+
+Before moving on to hardware testing, I regression tested the operation of the geofence failsafes, which is also shown in the summary video. The inclusion of a 'RTL check' in the script, to prevent setting a new flight mode if the current flight mode is RTL, ensures that the automated RTL action is not overriden at any point unless commanded by the operator and was swwn to function as expected during SITL testing.
+
+# Hardware Testing
+
 
 
 # References
 
 [1] StuartsProjects, SX12XX-LoRa Library, GitHub - https://github.com/StuartsProjects/SX12XX-LoRa
+[2] khancyr, Pymavlink complete example for copter control, GitHub - https://github.com/ArduPilot/pymavlink/pull/503
+[3] mustafa-gokce, Ardupilot Software Development - Pymavlink, GitHub - https://github.com/mustafa-gokce/ardupilot-software-development/tree/main/pymavlink
