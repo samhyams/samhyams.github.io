@@ -7,8 +7,8 @@ description: Beacon RTH for UAS in GNSS-denied environments using LoRa radio ran
 toc: false
 media_subpath: /beacon-rth/
 image:
-  path:
-  alt: 
+  path: DSC02430.jpg
+  alt: Hardware implementation in the Orca fuselage 
 ---
 
 Beacon RTH for UAS in GNSS-denied environments using LoRa radio ranging
@@ -27,7 +27,7 @@ By knowing the distance from home, the relative closing speed of the aircraft to
 
 Inspiration for this project came from reading through the Semtech LoRa documentation whilst working on another project. The documentation describes the in-built radio wave time-of-flight functionality, which can determine the distance between to LoRa radio modems.
 
-An open source arduino library for LoRa radio modules, shared by StuartsProjects on GitHub[1], not only offers an easy way to get communicating between LoRa modems, but also a ready made ranging example (and some testing results!) which can be adapted for custom use. The modifications needed were very minor; I set one ground node as a ‘transmitter’ to broadcast ranging requests and one airborne node as a ‘receiver’ to respond to the ranging request. The ground node then output the resulting distance measurement via serial to a connected laptop where it could be recorded.
+An open source Arduino library for LoRa radio modules, shared by StuartsProjects on GitHub[1], not only offers an easy way to get communicating between LoRa modems, but also a ready made ranging example (and some testing results!) which can be adapted for custom use. The modifications needed were very minor; I set one ground node as a ‘transmitter’ to broadcast ranging requests and one airborne node as a ‘receiver’ to respond to the ranging request. The ground node then output the resulting distance measurement via serial to a connected laptop where it could be recorded.
 
 ![Hardware implemetation of the LoRa air node](air_node_front.jpg)
 _Perfboard setup of the LoRa air node_
@@ -42,13 +42,13 @@ I setup the air node to broadcast from my Orca aircraft and placed the ground no
 ![LoRa ranging test results](distance_comparison_sub.png)
 _Comparison of GPS and LoRa ranging distance measurements during flight_
 
-The results were very promising with only a small delta between the LoRa and GPS results, which can easily be accounted for by several factors aincluding GPS accuracy and the aircraft home position vs GCS position offset of a few metres. For the Beacon RTH application, the accuracy shown is more than good enough as the ranging results can clearly be relied on to determine if the UAV is moving away from or towards the home point.
+The results were very promising with only a small delta between the LoRa and GPS results, which can easily be accounted for by several factors including GPS accuracy and the aircraft home position vs GCS position offset of a few metres. For the Beacon RTH application, the accuracy shown is more than good enough as the ranging results can clearly be relied on to determine if the UAV is moving away from or towards the home point.
 
 # System Setup
 
 My initial ranging tests took place over a year ago, and I didn’t start my work on the larger RTH solution until summer had turned to autumn this year. Thankfully, I’d documented my previous work well enough to give myself a head start. First off is determining how to setup the system for navigation control in a way which is both performant and safe. 
 
-As mentioned before, the LoRa radio modems are set up for ranging using arduino microcontrollers to provide a serial interface. I switched the roles of the air and ground node, so the air node requests a ranging measurement and outputs the response from the ground node on its serial port. This provides automatic ranging updates at approximately 2 Hz for use by other systems on the UAV. The airborne LoRa node onboard the UAV is connected to a companion computer. The companion computer is also connected by UART to a serial port on the flight controller to provide bidirectional communications, allowing the companion computer to both receive flight data and send control commands. The ground LoRa node is a standalone modem and microcontroller which responds to the ranging requests made by the airborne node.
+As mentioned before, the LoRa radio modems are set up for ranging using Arduino microcontrollers to provide a serial interface. I switched the roles of the air and ground node, so the air node requests a ranging measurement and outputs the response from the ground node on its serial port. This provides automatic ranging updates at approximately 2 Hz for use by other systems on the UAV. The airborne LoRa node onboard the UAV is connected to a companion computer. The companion computer is also connected by UART to a serial port on the flight controller to provide bidirectional communications, allowing the companion computer to both receive flight data and send control commands. The ground LoRa node is a standalone modem and microcontroller which responds to the ranging requests made by the airborne node.
 
 ![Basic System Diagram](system_diagram_basic.png)
 _Basic system overview_
@@ -90,7 +90,7 @@ On the ground, I setup my RC transmitter to output on both the internal and exte
 The payload is powered from a custom pass-through 5V BEC, which isolates the power supply to the payload from the flight critical systems. If anything causes the BEC output to fail, power delivery to the rest of the UAV is unaffected.
 
 ![Hardware implementation block diagram](system_diagram_full.png)
-_Hardware implememtation block diagram_
+_Hardware implementation block diagram_
 
 # Software Implementation
 
@@ -118,7 +118,7 @@ I opted for the former as it seemed simpler and doesn’t risk interfering with 
 
 ## Pymavlink Basics
 
-Pymavlink is a very accessible library with only a little Python knowledge required. A basic implementation to access a the VFR_HUD telemetry message and get the current airspeed is shown below: 
+Pymavlink is a very accessible library with only a little Python knowledge required, and there are plenty of online resources which can provide a headstart in understanding how to use it [2,3]. As an example, basic implementation to access the VFR_HUD telemetry message and get the current airspeed is shown below: 
 
 ```
 plane = mavutil.mavlink_connection('127.0.0.1:5761')
@@ -131,8 +131,71 @@ while True:
                 airspeed = msg['airspeed']
 ```
 
-Following some example repositories online for guidance [2,3], 
-It is also quite simple to request a specific message, which can save time waiting when a particular piece of data is needed. This is done using...............
+It is also quite simple to request a specific message, which can save time waiting when a particular piece of data is needed. This is done using a `command_long` message sent to the MAV, where the command is to request a message and the requested message type is defined in `param1`. We then wait until the requested message type is seen in the inbound MAVLink stream and output the message. The example below shows an implementation for requesting the MAV home position:
+
+```
+# Create request message command
+    request_message_command = dialect.MAVLink_command_long_message( 
+        target_system=plane.target_system,
+        target_component=plane.target_component,
+        command=dialect.MAV_CMD_REQUEST_MESSAGE,
+        confirmation=0,
+        param1=dialect.MAVLINK_MSG_ID_HOME_POSITION,
+        param2=0,
+        param3=0,
+        param4=0,
+        param5=0,
+        param6=0,
+        param7=0
+      )
+    # Send command to the vehicle
+    plane.mav.send(request_message_command)
+    # Get response
+    message = plane.recv_match(type=dialect.MAVLink_home_position_message.msgname,
+                                 blocking=True).to_dict()
+```
+
+By changing `param1` to `MAVLINK_MSG_ID_<x>` and the type in `recv_match()` to `MAVLink_<x>_message`, it is possible to request any MAVLink message type that your firmware can report.
+
+As for sending commands to the MAV, the same procedure is used but the command and params within the `command_long` message are changed. As an example for changing the flight mode, we send the `DO_SET_MODE` command and define the numeric representation of the mode as `param2`. The MAV will send a `COMMAND_ACK` message after it has processed our request, so we wait to check the result of this at the end:
+
+```
+# Create change mode message
+    set_mode_message = dialect.MAVLink_command_long_message(
+        target_system=plane.target_system,
+        target_component=plane.target_component,
+        command=dialect.MAV_CMD_DO_SET_MODE,
+        confirmation=0,
+        param1=dialect.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED,
+        param2=<x>,
+        param3=0,
+        param4=0,
+        param5=0,
+        param6=0,
+        param7=0
+    )
+    # Change flight mode
+    plane.mav.send(set_mode_message)
+    # Wait for response
+    while True:
+        # Catch COMMAND_ACK message
+        message = plane.recv_match(type=dialect.MAVLink_command_ack_message.msgname, 
+                                   blocking=True).to_dict()
+        # Check the COMMAND_ACK is for DO_SET_MODE
+        if message["command"] == dialect.MAV_CMD_DO_SET_MODE:
+            # Check the command is accepted or not
+            if message["result"] == dialect.MAV_RESULT_ACCEPTED:
+                # Inform the user
+                print('Flight mode set')
+            # Not accepted
+            else:
+                # Inform the user
+                print('Failed to set flight mode')
+            # Break the loop
+            return
+```
+
+<add notes regarding the custom sleep function, issues with HIGH_LATENCY, etc.>
 
 
 
@@ -140,7 +203,7 @@ It is also quite simple to request a specific message, which can save time waiti
 
 ## SITL Implementation
 
-Setting up Arduplane software in the loop is as simple as cloning the repository and following the SITL guide in the documentation. By default, running `sim_vehicle.py` will open an instance of mavproxy which can be used for control and monitoring of the simulation as if flying in real life. The command line can be used to open additional ports, which I used to provide a connection to the navigation algorithm script. One thing to bear in mind is that some of the parameters on the vehicle need to be enabled or set correctly, such as FENCE_ENABLE, which I found out when trying to regression test the geofence breach response!
+Setting up ArduPlane software in the loop is as simple as cloning the repository and following the SITL guide in the documentation. By default, running `sim_vehicle.py` will open an instance of Mavproxy which can be used for control and monitoring of the simulation as if flying in real life. The command line can be used to open additional ports, which I used to provide a connection to the navigation algorithm script. One thing to bear in mind is that some of the parameters on the vehicle need to be enabled or set correctly, such as FENCE_ENABLE, which I found out when trying to regression test the geofence breach response!
 
 ## Navigation Algorithm Development
 
@@ -150,11 +213,11 @@ With a distance to home function added, dynamic navigation based on distance to 
 
 This all worked remarkably well considering the crude nature of the algorithm, so I next added a custom wind correction function to allow for operation in wind without GPS-derived wind estimation. The function takes the original windspeed and direction estimation determined by ArduPlane at initialisation of the script and calculates the corrected ground speed and ground course based on the current UAV magnetic heading.
 
-When the script is started, the UAV home position and last known wind measurements are used to initialise the navigation controller. The airspeed setpoint, diastance to home, and magnetic heading are all that is required for the controller to function, and my testing proves that it always returns the UAV to the vicinity of home. Indeed, if low or zero wind speeds are present, the UAV will often end up orbiting or performing a figure of eight pattern around the home point once reached! The video below shows a brief summary of the performance of the navigation controller in the simulator.
+When the script is started, the UAV home position and last known wind measurements are used to initialise the navigation controller. The airspeed setpoint, distance to home, and magnetic heading are all that is required for the controller to function, and my testing proves that it always returns the UAV to the vicinity of home. Indeed, if low or zero wind speeds are present, the UAV will often end up orbiting or performing a figure of eight pattern around the home point once reached! The video below shows a brief summary of the performance of the navigation controller in the simulator.
 
 {% include embed/youtube.html id='y_hJwu-_NvM' %}
 
-Before moving on to hardware testing, I regression tested the operation of the geofence failsafes, which is also shown in the summary video. The inclusion of a 'RTL check' in the script, to prevent setting a new flight mode if the current flight mode is RTL, ensures that the automated RTL action is not overriden at any point unless commanded by the operator and was swwn to function as expected during SITL testing.
+Before moving on to hardware testing, I regression tested the operation of the geofence failsafes, which is also shown in the summary video. The inclusion of a 'RTL check' in the script, to prevent setting a new flight mode if the current flight mode is RTL, ensures that the automated RTL action is not overridden at any point unless commanded by the operator and was shown to function as expected during SITL testing.
 
 # Hardware Testing
 
