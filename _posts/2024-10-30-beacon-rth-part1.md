@@ -1,6 +1,6 @@
 ---
 title: Beacon RTH (Part 1) - minimal SWaP-C GPS denied return to home navigation
-date: 2024-10-17 20:05:06 +0100
+date: 2024-10-30 16:30:06 +0000
 categories: [Projects, Pinegrove]
 tags: [uas, uav, ardupilot, arduplane, pymavlink, gps, gnss, denied]     # TAG names should always be lowercase
 description: Beacon RTH for UAS in GNSS-denied environments using LoRa radio ranging
