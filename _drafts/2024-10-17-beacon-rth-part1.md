@@ -195,11 +195,9 @@ As for sending commands to the MAV, the same procedure is used but the command a
             return
 ```
 
-<add notes regarding the custom sleep function, issues with HIGH_LATENCY, etc.>
+## Other Pitfalls
 
-
-
-
+I found a lot of issues running the scripts resulted fro using the python `time.sleep()` function, as it seemed to cause latency in reading the incoming serial streams. I replaced all usages of `time.sleep()` with a custom pause duration function which seemed to help performance.
 
 ## SITL Implementation
 
@@ -213,7 +211,12 @@ With a distance to home function added, dynamic navigation based on distance to 
 
 This all worked remarkably well considering the crude nature of the algorithm, so I next added a custom wind correction function to allow for operation in wind without GPS-derived wind estimation. The function takes the original windspeed and direction estimation determined by ArduPlane at initialisation of the script and calculates the corrected ground speed and ground course based on the current UAV magnetic heading.
 
-When the script is started, the UAV home position and last known wind measurements are used to initialise the navigation controller. The airspeed setpoint, distance to home, and magnetic heading are all that is required for the controller to function, and my testing proves that it always returns the UAV to the vicinity of home. Indeed, if low or zero wind speeds are present, the UAV will often end up orbiting or performing a figure of eight pattern around the home point once reached! The video below shows a brief summary of the performance of the navigation controller in the simulator.
+When the script is started, the UAV home position and last known wind measurements are used to initialise the navigation controller. The airspeed setpoint, distance to home, and magnetic heading are all that is required for the controller to function, and my testing proves that it always returns the UAV to the vicinity of home. Indeed, if low or zero wind speeds are present, the UAV will often end up orbiting or performing a figure of eight pattern around the home point once reached! The plot below shows that the estimated wind direction remains within 4 degrees and estimated groundspeed remains within 3 m/s for all aircraft headings, which is sufficient for this application.
+
+![Synthetic wind approximation delta](wind_plot.png)
+_Comparison of custom estimated wind components with actual, against aircraft heading_
+
+The video below shows a brief summary of the performance of the navigation controller in the simulator.
 
 {% include embed/youtube.html id='y_hJwu-_NvM' %}
 
@@ -221,7 +224,40 @@ Before moving on to hardware testing, I regression tested the operation of the g
 
 # Hardware Testing
 
+Some issues with the SITL code cropped up when transitioning over to the hardware. One key issue was my inability to get the MAVLink message HIGH_LATENCY2 working on hardware - despite following the instructions for enabling it after boot via Mission Planner. This was unfortunate as HIGH_LATENCY2 is the only default MAVLink message which provides airspeed setpoint by default, so I had to refactor my functions to request the airspeed error and use this to calculate the airspeed setpoint from the the error and measured airspeed.
 
+Adding in a master switch was straightforward. Channel 8 from the RC transmitter is read from the flight controller and the script is only actioned if the switch is in the down position. I adjusted the transmitter output so that switch up position (1000 us PWM) switches off the relay, switch middle position (~1500 us PWM) turns on the relay but does not activate the script, and down position (~2000 us PWM) activates the software navigation script. The script is also setup using a systemd service to automatically launch at bootup, so the script can be effectively reset during flight by power cycling the relay.
+
+![Hardware Install](DSC02430.jpg)
+_Hardware installation in payload bay_
+
+One additional issue which required troubleshooting was the ability of Python to read two hardware UART serial streams simultaneously. Trying to run open both the MAVLink and Arduino serial streams in the script caused significant latency in incoming data packets, on the order of 10 seconds or more. Whilst the navigation script is not precise enough to need millisecond-accurate data, latency of over a second is not at all sufficient. I tried a few potential solutions to fix this, including the Python multithreading/multiprocessing libraries and simply opening and closing the UART ports as needed, but neither gave a satisfactory result. Instead, a suitable workaround was to run the Arduino script separately in the background and dump the LoRa distance measurement to a temporary .txt file, which can then be read asynchronously by the navigation script which has the MAVLink UART port open. Although not elegant, this solution solved the latency issues and works well enough for this proof of concept.
+
+# Flight Testing
+
+Initial flight testing was a mixed bag, with a lot of minor issues which needed ironing out, including some of those mentioned above. I certainly underestimated the difficulty of needing to single-handedly fly the aircraft and monitor the GCS whilst anticipating what the navigation script would do, and troubleshooting was made all the more difficult by the absence of any downlink from the SBC to the ground, so if anything went wrong with the script I was in the dark as to exactly what.
+
+![Flight test setup](DSC02423.jpg)
+_Set up in the field for flight testing_
+
+I added some detailed logging to the script to record where and when the script hung, which finally allowed some minor success in seeing the navigation algorithm function in real life. After a few mid-air reboots, the script started to respond and turn the aircraft towards home:
+
+![Initial response](beacon_hitl_gps0.png)
+_Flight test initial navigation script response_
+
+After a few turn commands, the script stopped requesting further turns for an unknown reason, but it was encouraging to see some proof of success, no matter how small! I made some more minor adjustments to the script setup, and achieved some more convincing results:
+
+![Long duration response](beacon_hitl_gps1.png)
+_Flight test navigation response extended_
+
+These initial attempts were made using a distance to home calculated from the GPS coordinates, as this was used in SITL testing, but - as described above - the navigation algorithm should perform identically irrespective of the home distance source. Clearly, the script is functioning as expected as the aircraft 'orbits' the home point with the switches between turning left and right obvious, but the script still hangs at some point, after which the aircraft flies along the last commanded heading. One final test was performed with the LoRa ranging measurement active for the distance to home measurement:
+
+![LoRa ranging flight test response](beacon_hitl_lora0.png)
+_Flight test response with LoRa ranging enabled_
+
+Clearly not the expected result, showing a circular loiter being pushed downwind, but the cause was simple - the ground end of the LoRa link had turned off since the power draw was so low that the power bank had deactivated the output! This results in a measured home distance of 0 metres on the aircraft, and backtesting in SITL with a constant 0 m distance to home shows the same orbit-in-place behaviour as observed in the flight test.
+
+There are still some issues with the automatic startup of the scripts on the SBC, which makes testing difficult. Although not fully successful yet, I wanted to write up the project results so far to record the development, pitfalls, and outcomes so that the future blog post isn't quite so long. More to come once the last few issues are solved!
 
 # References
 
