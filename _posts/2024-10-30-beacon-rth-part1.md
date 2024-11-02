@@ -197,7 +197,7 @@ As for sending commands to the MAV, the same procedure is used but the command a
 
 ## Other Pitfalls
 
-I found a lot of issues running the scripts resulted fro using the python `time.sleep()` function, as it seemed to cause latency in reading the incoming serial streams. I replaced all usages of `time.sleep()` with a custom pause duration function which seemed to help performance.
+I found a lot of issues running the scripts resulted from using the python `time.sleep()` function, as it seemed to cause latency in reading the incoming serial streams. I replaced all usages of `time.sleep()` with a custom pause duration function which seemed to help performance.
 
 ## SITL Implementation
 
@@ -214,7 +214,7 @@ This all worked remarkably well considering the crude nature of the algorithm, s
 When the script is started, the UAV home position and last known wind measurements are used to initialise the navigation controller. The airspeed setpoint, distance to home, and magnetic heading are all that is required for the controller to function, and my testing proves that it always returns the UAV to the vicinity of home. Indeed, if low or zero wind speeds are present, the UAV will often end up orbiting or performing a figure of eight pattern around the home point once reached! The plot below shows that the estimated wind direction remains within 4 degrees and estimated groundspeed remains within 3 m/s for all aircraft headings, which is sufficient for this application.
 
 ![Synthetic wind approximation delta](wind_plot.png)
-_Comparison of custom estimated wind components with actual, against aircraft heading_
+_Comparison of custom estimated wind components with actual, against aircraft heading. Wind direction shown by black arrow_
 
 The video below shows a brief summary of the performance of the navigation controller in the simulator.
 
@@ -243,17 +243,17 @@ _Set up in the field for flight testing_
 I added some detailed logging to the script to record where and when the script hung, which finally allowed some minor success in seeing the navigation algorithm function in real life. After a few mid-air reboots, the script started to respond and turn the aircraft towards home:
 
 ![Initial response](beacon_hitl_gps0.png)
-_Flight test initial navigation script response_
+_Flight test initial navigation script response. Black arrow shows direction of flight_
 
 After a few turn commands, the script stopped requesting further turns for an unknown reason, but it was encouraging to see some proof of success, no matter how small! I made some more minor adjustments to the script setup, and achieved some more convincing results:
 
 ![Long duration response](beacon_hitl_gps1.png)
-_Flight test navigation response extended_
+_Flight test navigation response extended. Black arrow shows direction of flight_
 
 These initial attempts were made using a distance to home calculated from the GPS coordinates, as this was used in SITL testing, but - as described above - the navigation algorithm should perform identically irrespective of the home distance source. Clearly, the script is functioning as expected as the aircraft 'orbits' the home point with the switches between turning left and right obvious, but the script still hangs at some point, after which the aircraft flies along the last commanded heading. One final test was performed with the LoRa ranging measurement active for the distance to home measurement:
 
 ![LoRa ranging flight test response](beacon_hitl_lora0.png)
-_Flight test response with LoRa ranging enabled_
+_Flight test response with LoRa ranging enabled. Black arrow shows direction of flight_
 
 Clearly not the expected result, showing a circular loiter being pushed downwind, but the cause was simple - the ground end of the LoRa link had turned off since the power draw was so low that the power bank had deactivated the output! This results in a measured home distance of 0 metres on the aircraft, and backtesting in SITL with a constant 0 m distance to home shows the same orbit-in-place behaviour as observed in the flight test.
 
@@ -262,5 +262,7 @@ There are still some issues with the automatic startup of the scripts on the SBC
 # References
 
 [1] StuartsProjects, SX12XX-LoRa Library, GitHub - https://github.com/StuartsProjects/SX12XX-LoRa
+
 [2] khancyr, Pymavlink complete example for copter control, GitHub - https://github.com/ArduPilot/pymavlink/pull/503
+
 [3] mustafa-gokce, Ardupilot Software Development - Pymavlink, GitHub - https://github.com/mustafa-gokce/ardupilot-software-development/tree/main/pymavlink
