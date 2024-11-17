@@ -11,7 +11,7 @@ image:
   alt: Spiroid winglet installed on wing
 ---
 
-After a busy 2 week break, I wanted to do a quick self-contained project to occupy myself. Reading through my list of project ideas, one jumped out - a bullet point that simply said 'Spiroid'. This seemed perfect and only an hour later I had designed a replacement winglet for my Mini Caelus tiltrotor and was warming up the 3D printer.
+After a busy 2 week break, I wanted to do a quick self-contained project to occupy some time. Reading through my list of project ideas, one jumped out - a bullet point that simply said 'Spiroid'. This seemed perfect and only an hour later I had designed a replacement winglet for my Mini Caelus tiltrotor and was warming up the 3D printer.
 
 Unfortunately my LW-PLA printing profiles didn't seem to have survived the summer months unscathed, as the print quality left a lot to be desired despite running the spool through the filament dryer. I had split the part up into a few challenging geometries and two straight airfoil sections, so I elected to do the simple parts in LW-PLA and revert to standard PLA for the rest. Before I do any more 3D printing projects, recalibrating the LW-PLA profile is on top of the list of priorities.
 
@@ -25,7 +25,7 @@ _Spiroid winglets installed_
 
 Sadly due to the clocks moving backwards and winter drawing in, the only free time for flying is on weekends. So on this very cold morning, I headed down to the field and tested the winglets out in flight. As expected, there was no material change in flight performance with the new winglets.
 
-This was just a one-off mini project for fun, so no data or analysis this time, just a collection of photos enjoy below!
+This was just a one-off mini project for fun, so no data or analysis this time, just a collection of photos enjoy below - and a [short video available here](https://www.youtube.com/watch?v=8hDFum_nNEQ)!
 
 ![Spiroid winglet flight test 1](DSC02455.jpg)
 
