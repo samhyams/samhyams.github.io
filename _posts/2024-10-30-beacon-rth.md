@@ -257,7 +257,17 @@ _Flight test response with LoRa ranging enabled. Black arrow shows direction of 
 
 Clearly not the expected result, showing a circular loiter being pushed downwind, but the cause was simple - the ground end of the LoRa link had turned off since the power draw was so low that the power supply had deactivated its output! This results in a measured home distance of 0 metres on the aircraft, and backtesting in SITL with a fixed 0 m distance to home input shows the same orbit-in-place behaviour as observed in the flight test.
 
-There are still some issues with the automatic startup of the scripts on the SBC, which makes testing difficult. Although not fully successful yet, I wanted to write up the project results so far to record the development, pitfalls, and outcomes so that the future blog post isn't quite so long. More to come once the last few issues are solved!
+There are still some issues with the automatic startup of the scripts on the SBC, which makes testing difficult. 
+
+## Summary, for now...
+
+Although not fully successful yet, I wanted to write up the project results so far to record the development, pitfalls, and outcomes so that the future blog post isn't quite so long. 
+
+The solution works well in SITL with only a few teething issues to be solved in the hardware implementation. Despite these issues, the concept has been successfully proved in flight. As discussed above, the functionality works regardless of whether the distance to home measurement is provided by the current GPS location or the LoRa ranging distance, and the use of GPS data for waypoint following is only included as a workaround for ArduPilot limitations. Using a flight controller which allows direct heading overrides based on magnetometer data - good practice for any aircraft trying to fly in an EM-contested environment - would remove this GPS reliance and is already supported by the script since heading is used for calculating navigation commands.
+
+This initial implementation has a total cost of less than £30, weighs 175 g, and has a total mean power draw below 100 mA. The LoRa air node hardware could easily be shrunk down to something the size of a fingertip, similar to an ExpressLRS receiver, and the SBC could be replaced by a the same air node hardware microcontroller or integrated into the flight controller by a more capable software engineer. As it stands now however, the solution is very straightforward to integrate into not only any fixed wing ArduPilot vehicle, but any vehicle which is compatible with the MAVLink protocol for communication and control.
+
+More to come once the last few issues are solved!
 
 ## References
 
