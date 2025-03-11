@@ -45,11 +45,11 @@ Finally, I heatshrunk the entire pack and compared the results to a normal 3300 
 ![Final pack](DSC02656.jpg)
 _Final pack_
 
-The Li-Ion pack weighs 577 g in total. Considering each of the eight cells weigh about 65 g, the overhead for the rest of the material is 57 g, or almost exactly 10% of the total weight. With a nominal maximum capacity of 8400 mAh, the pack weight efficiency is about 0.069 g/mAh, which compares to the 0.102 g/mAh of the LiPo above.
+The Li-Ion pack weighs 577 g in total. Considering each of the eight cells weigh about 65 g, the overhead for the rest of the material is 57 g, or almost exactly 10% of the total weight. With a nominal maximum capacity of 8400 mAh, the pack weight efficiency is about 0.069 g/mAh, which compares favourably to the 0.102 g/mAh of the LiPo above.
 
 ## Flight Endurance
 
-Before flying, I stress tested the pack by running on the ground at full throttle for a few minutes. This only draw a maximum current of about 40 A, but this is the only aircraft I plan to use the pack with. The battery fits very snugly in the battery bay and balances the same as my normal setup of two 4S LiPos.
+Before flying, I stress tested the pack by running on the ground at full throttle for a few minutes. This only draws a maximum current of about 40 A, but this is the only aircraft I plan to use the pack with so it's a representatve test. The battery fits very snugly in the battery bay and balances the same as my normal setup of two 4S LiPos.
 
 I flew a single endurance flight. It was a cold day (temperatures somewhere between 0 and +5 degreed C) and I climbed to 120 m AGL and flew a wide circular loiter with 250 m radius at 15 m/s for the duration. This flight profile gives an almost wings-level attitude for the flight, with an average roll angle below 2 degrees. At takeoff, the cell voltage was 4.17 V, and I landed once the cell voltage reached 3.2 V, which gave a total flight endurance of 95 minutes and flight distance of 82 km. The current monitor is a bit out of calibration, claiming a use of 8500 mAh from the 8400 mAh battery, but assuming we used the full 8400 mAh this puts the aircraft efficiency at 102 mAh/km.
 
