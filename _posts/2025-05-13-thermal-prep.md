@@ -1,5 +1,5 @@
 ---
-title: Thermal Prep
+title: Thermal Prep Time
 date: 2025-05-13 18:15:23 +0000
 categories: [Projects, ASW28]
 tags: [uas, uav, ardupilot, arduplane]     # TAG names should always be lowercase
