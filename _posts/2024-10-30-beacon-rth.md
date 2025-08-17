@@ -29,7 +29,7 @@ Inspiration for this project came from reading through the Semtech LoRa document
 
 An open source Arduino library for LoRa radio modules, shared by StuartsProjects on GitHub [1], not only offers an easy way to get communicating between LoRa modems, but also a ready made ranging example which can be adapted for custom use. The modifications needed were very minor; I set one ground node as a ‘transmitter’ to broadcast ranging requests and one airborne node as a ‘receiver’ to respond to the ranging request. The ground node then output the resulting distance measurement via serial to a connected laptop where it could be recorded.
 
-![Hardware implemetation of the LoRa air node](air_node_front.jpg)
+![Hardware implementation of the LoRa air node](air_node_front.jpg)
 _Perfboard setup of the LoRa air node_
 
 The radio modems consist of Ebyte E28 SX1280 modems mounted on breakout PCBs to allow breadboarding. The air node fits on a 6x4 cm perfboard with an Arduino Pro Micro and a cheap BEC to provide 3.3 V to the circuitry, keeping the air node self-contained when attached to a power source. The ground node is less permanent, with the same components mounted on a breadboard to be powered from an external power source or USB port.
