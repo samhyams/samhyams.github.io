@@ -3,7 +3,7 @@ title: Decoding the MAV_CMD_GUIDED mystery vortex
 date: 2025-08-17 16:06:12 +0100
 categories: [Other]
 tags: [uas, uav, ardupilot, arduplane]     # TAG names should always be lowercase
-description: Testing the hidden command overrides for speed, altitude, and heading
+description: Testing the 'undocumented' command overrides for speed, altitude, and heading
 toc: false
 media_subpath: /beacon-rth/
 image:
@@ -25,7 +25,7 @@ So in theory we can fly around in GUIDED mode and have control of our airspeed, 
 
 In pymavlink, the MAV_CMD_GUIDED_CHANGE_SPEED command can be send using a command long message, following the MAVLink definition:
 
-```
+```python
 set_speed_message = dialect.MAVLink_command_long_message(
         target_system=plane.target_system,
         target_component=plane.target_component,
@@ -47,7 +47,7 @@ Param 1 uses the SPEED_TYPE enum to set whether this is airspeed or groundspeed.
 
 Similarly for altitude changes, following the MAVLink definition the desired altitude (AMSL) and climb rate can be set within the request:
 
-```
+```python
 set_altitude_message = dialect.MAVLink_command_long_message(
         target_system=plane.target_system,
         target_component=plane.target_component,
@@ -69,7 +69,7 @@ The climb rate units are quoted as m/s in the MAVLink documentation, but I don't
 
 The thing I'm most interested in is heading commands, as this is useful for GPS-denied heading based navigation. Again, the message is constructed following the MAVLink definition:
 
-```
+```python
 set_heading_message = dialect.MAVLink_command_long_message(
         target_system=plane.target_system,
         target_component=plane.target_component,
@@ -87,9 +87,13 @@ set_heading_message = dialect.MAVLink_command_long_message(
 
 The heading rate must be populated, as setting to zero will result in no heading change. Basic testing shows that the heading reference, i.e. whether the aircraft uses the input heading as a course over ground (ref=0) or nose magnetic heading (ref=1), works as intended, with the latter being useful for a basic GPS-denied navigation solution. More advanced solutions may provide a continuous course over ground estimation, in which case that heading command reference can continue to be used.
 
+Testing these two heading references shows that they are implemented correctly. In the images below, there is a gentle southerly wind (heading towards the north). The left image shows the course over ground command at a heading of 90 degrees, with the blue aircraft icon and yellow track showing a direct easterly flightpath as expected, with nose magnetic heading (red aircraft icon) offset to starboard due to the crosswind. Conversely for the right image, the raw magnetic heading is commanded to 90 degrees, and the aircraft is shown to point its nose at 90 degrees with the track offset a few degrees northward on account of being blown by the crosswind.
+
 ![Heading comparison](heading_comparison.png)
 _Comparison of commanded (a) course over ground heading, and (b) magnetic heading_
 
 ## Summary
 
-So overall, nothing groundbreaking, but perhaps useful to somebody looking to implement speed, altitude, or heading control in a MAVLink system, and certainly an important functionality to make use of the next time I use offboard control in ArduPilot.
+These 'undocumented' commands are not mentioned anywhere in the ArduPilot documentation, but by digging around in pymavlink and the MAVLink message set you can find some useful functionality. Alongside these individual test cases, I played around with commanding multiple simultaneously (i.e. speed, height, and heading changes at once) and it works perfectly well.
+
+So overall, nothing groundbreaking, but perhaps useful to somebody looking to implement speed, altitude, or heading control in a MAVLink system, and certainly important functionality to make use of the next time I use offboard control in ArduPilot.
