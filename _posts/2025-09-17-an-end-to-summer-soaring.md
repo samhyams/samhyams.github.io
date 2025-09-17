@@ -7,7 +7,7 @@ description: Reviewing the summer's thermal soaring activity
 toc: false
 media_subpath: /asw28/
 image:
-  path: 20250824_131822.jpg
+  path: 20250824_131822_crop.jpg
   alt: ASW28 ready for flight
 ---
 
