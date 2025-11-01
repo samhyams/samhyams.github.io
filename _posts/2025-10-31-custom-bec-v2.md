@@ -20,22 +20,22 @@ I searched for potential switching regulator ICs to use in this design with a bi
 
 I opted for the MAX20406FOE, with a maximum 6 A output and a switching frequency of 3 MHz. Increasing the switching frequency of a switching regulator reduces the size of the inductor required, which reduces the overall board size. I tried to keep the design simple whilst retaining all the diagnostic output pins of the regulators for use if required in the future. To this end, I kept all the surface mount components on the front face of the board and avoided using components smaller than 0603 size, as well as using the minimum number of unique passive components where possible. The IC manufacturer provides suggested PCB layout to minimise EMI which I followed as far as possible, placing the two regulators adjacent to each other with matching layouts. I also followed the suggested component sizing for the capacitors and inductors. The PCB has 4 layers, and the stackup is Ground/Signal/Power/Ground with the front face also including power to the regulator inputs, and both external faces hosting miscellaneous signal traces.
 
-![Front face of board](DSC02797_small.jpg)
-![Front face of board](DSC02799_small.jpg)
+![Front face of board](DSC02797_small.jpeg)
+![Front face of board](DSC02799_small.jpeg)
 _Front face of the board with regulator layout_
 
 The potential to design the board to make use of the multiphase operation but keep the option of using the two regulators separately was intriguing. The datasheet details the requisite trace layouts for both modes, so I used the rear face of the board to connect these outputs with optional solder joiners. This allows the user to connect the solder jumpers in different configurations depending on how they would like to use the outputs.
 
-![Rear face of board](DSC02804_small.jpg)
-![Rear face of board](DSC02805_small.jpg)
+![Rear face of board](DSC02804_small.jpeg)
+![Rear face of board](DSC02805_small.jpeg)
 _Rear face of the board, showing the solder jumpers and diagnostic solder pads_
 
 I kept the passthrough XT60-PW connectors of my first design, so the BEC can still be easily installed and used in an existing robotics platform. I modified the footprint to include a dedicated pad for bare wire to be soldered in place of XT60-PW connectors, and added through hold slots to fit cable ties to provide cable relief if required. On the rear face I exposed the copper between input and output to allow a large solder bridge to be added to support higher passthrough currents. The positive passthrough voltage is also connected on all board layers and stitched with in-pad vias. The main output connector supports a standard 2x2 2.54 mm pitch pin header, and the reverse side of the board has some small solder pads for output monitoring or small loads.
 
-![Soldered leads](DSC02810_small.jpg)
+![Soldered leads](DSC02810_small.jpeg)
 _Input and output power cables directly soldered to the board, making use of the cable relief_
 
-![Soldered XT60-PW](DSC02810_small.jpg)
+![Soldered XT60-PW](DSC02810_small.jpeg)
 _Left - original BEC design, Right - new BEC design, both with XT60-PW connectors_
 
 ## Testing
