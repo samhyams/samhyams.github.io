@@ -35,7 +35,7 @@ I kept the passthrough XT60-PW connectors of my first design, so the BEC can sti
 ![Soldered leads](DSC02810_small.jpeg)
 _Input and output power cables directly soldered to the board, making use of the cable relief_
 
-![Soldered XT60-PW](DSC02810_small.jpeg)
+![Soldered XT60-PW](DSC02815_small.jpeg)
 _Left - original BEC design, Right - new BEC design, both with XT60-PW connectors_
 
 ## Testing
