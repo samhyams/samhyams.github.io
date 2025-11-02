@@ -43,6 +43,9 @@ There were a lot of tests I wanted to run to characterise the performance of the
 
 The general test procedure was to increase the desired current draw in steps between a minimum and maximum value, holding each current step for several seconds before incrementing. The output voltage response to these current loads was recorded.
 
+![Test setup](test-setup.jpeg)
+_Test setup with electronic load and extraction_
+
 ### Old Design
 
 I took the opportunity to first test my old LMR51430 design as a baseline. It was expected to reach a maximum reliable output of 3 A continuous current. As seen below, once the current draw increases above 2.5 A, the output immediately becomes unstable and unusable. At 2.5 A, the BEC produces a 4.72 V output. The issues seen with reliably powering a Raspberry Pi were likely due to the voltage sag at higher loads.
